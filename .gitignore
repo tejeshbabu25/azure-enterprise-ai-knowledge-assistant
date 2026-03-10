@@ -1,0 +1,20 @@
+# Visual Studio
+.vs/
+*.user
+*.suo
+*.cache
+*.pdb
+
+# Build folders
+bin/
+obj/
+
+# Node
+node_modules/
+
+# Angular
+dist/
+
+# OS
+.DS_Store
+Thumbs.db

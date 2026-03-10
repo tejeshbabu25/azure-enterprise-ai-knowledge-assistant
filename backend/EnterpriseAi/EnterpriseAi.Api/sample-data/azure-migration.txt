@@ -1,0 +1,2 @@
+The modernization initiative uses Angular for the frontend and .NET APIs for backend services.
+The application is hosted on Azure App Service and uses Azure AI Search for retrieval.

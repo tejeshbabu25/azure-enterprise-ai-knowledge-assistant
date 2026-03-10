@@ -1,0 +1,2 @@
+Employees can request Azure environment access through the internal access management portal.
+Manager approval and security review are required before permissions are granted.

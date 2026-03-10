@@ -1,0 +1,2 @@
+New developers must complete onboarding, VPN setup, repository access, and environment approval before joining active sprint work.
+Azure environment access is granted after manager and security approvals.
