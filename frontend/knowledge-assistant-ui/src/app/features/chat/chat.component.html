@@ -1,0 +1,63 @@
+<section class="chat-page">
+  <div class="hero">
+    <h1>Ask your enterprise documents</h1>
+    <p>
+      This demo uses Angular, .NET 8, Azure OpenAI, and Azure AI Search to answer questions
+      using retrieved source content.
+    </p>
+  </div>
+
+  <div class="question-card">
+    <label for="question" class="section-title">Your question</label>
+
+    <textarea
+      id="question"
+      [(ngModel)]="question"
+      rows="6"
+      placeholder="Example: How do employees request Azure access?"
+    ></textarea>
+
+    <div class="actions">
+      <button type="button" (click)="ask()" [disabled]="loading || !question.trim()">
+        {{ loading ? 'Thinking...' : 'Ask' }}
+      </button>
+    </div>
+
+    <div class="sample-questions">
+      <span>Try:</span>
+      <button type="button" (click)="loadSampleQuestion('How do employees request Azure access?')">
+        Azure access
+      </button>
+      <button type="button" (click)="loadSampleQuestion('What technology is used in the modernization initiative?')">
+        Modernization stack
+      </button>
+      <button type="button" (click)="loadSampleQuestion('What must new developers complete before joining sprint work?')">
+        Onboarding
+      </button>
+    </div>
+  </div>
+
+  <div *ngIf="error" class="error-banner">
+    {{ error }}
+  </div>
+
+  <div *ngIf="result" class="result-grid">
+    <section class="answer-card">
+      <h2>Answer</h2>
+      <p class="answer-text">{{ result.answer }}</p>
+    </section>
+
+    <section class="sources-card">
+      <h2>Sources</h2>
+
+      <div *ngFor="let source of result.sources" class="source-item">
+        <div class="source-header">
+          <strong>{{ source.title }}</strong>
+          <span>{{ source.sourceFile }}</span>
+        </div>
+
+        <p>{{ source.content }}</p>
+      </div>
+    </section>
+  </div>
+</section>

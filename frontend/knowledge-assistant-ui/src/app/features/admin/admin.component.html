@@ -1,0 +1,40 @@
+<section class="admin-page">
+  <h1>Admin</h1>
+  <p class="subtitle">
+    Use this page to verify the API, create the Azure AI Search index, and ingest sample documents.
+  </p>
+
+  <div class="card">
+    <h2>1. API Health</h2>
+    <button type="button" (click)="checkHealth()" [disabled]="loadingHealth">
+      {{ loadingHealth ? 'Checking...' : 'Check API Health' }}
+    </button>
+    <p *ngIf="healthMessage" class="message">{{ healthMessage }}</p>
+  </div>
+
+  <div class="card">
+    <h2>2. Create / Update Search Index</h2>
+    <button type="button" (click)="setupIndex()" [disabled]="loadingSetup">
+      {{ loadingSetup ? 'Working...' : 'Setup Index' }}
+    </button>
+    <p *ngIf="setupMessage" class="message">{{ setupMessage }}</p>
+  </div>
+
+  <div class="card">
+    <h2>3. Ingest Documents</h2>
+
+    <label for="folderPath">Optional custom folder path</label>
+    <input
+      id="folderPath"
+      type="text"
+      [(ngModel)]="folderPath"
+      placeholder="Leave blank to use backend sample-data folder"
+    />
+
+    <button type="button" (click)="ingestDocuments()" [disabled]="loadingIngest">
+      {{ loadingIngest ? 'Ingesting...' : 'Ingest Documents' }}
+    </button>
+
+    <p *ngIf="ingestMessage" class="message">{{ ingestMessage }}</p>
+  </div>
+</section>
