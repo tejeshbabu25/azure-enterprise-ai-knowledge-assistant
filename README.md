@@ -44,5 +44,17 @@ This system enables users to **ask natural language questions** and receive **AI
 - Application Insights
 
 ---
+## Configuration Management
+
+This project uses:
+
+- Azure App Configuration for centralized configuration
+- Azure Key Vault (planned) for secure secret storage
+- Managed Identity for secure access
+
+Configuration includes:
+- Azure OpenAI settings
+- Azure AI Search settings
+- Application-level tuning (chunk size, topK, etc.)
 
 # 🏗️ System Architecture
