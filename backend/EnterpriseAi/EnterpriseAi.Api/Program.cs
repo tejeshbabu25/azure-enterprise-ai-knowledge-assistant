@@ -1,3 +1,7 @@
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.Identity.Web;
+using Microsoft.AspNetCore.Authorization;
+using System.Security.Claims;
 using Azure.Identity;
 using EnterpriseAi.Api.Extensions;
 using Microsoft.AspNetCore.HttpOverrides;
@@ -57,6 +61,43 @@ builder.Services.AddCors(options =>
     });
 });
 
+builder.Services
+    .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddMicrosoftIdentityWebApi(
+        jwtOptions =>
+        {
+            builder.Configuration.Bind("AzureAd", jwtOptions);
+
+            jwtOptions.TokenValidationParameters.ValidAudience =
+                builder.Configuration["AzureAd:Audience"];
+
+            jwtOptions.TokenValidationParameters.ValidateAudience = true;
+            jwtOptions.TokenValidationParameters.ValidateIssuer = true;
+            jwtOptions.TokenValidationParameters.ValidateLifetime = true;
+            jwtOptions.TokenValidationParameters.ClockSkew = TimeSpan.FromMinutes(2);
+        },
+        identityOptions =>
+        {
+            builder.Configuration.Bind("AzureAd", identityOptions);
+        });
+
+var userGroupId = builder.Configuration["Authorization:Groups:AppUserGroupId"];
+var adminGroupId = builder.Configuration["Authorization:Groups:AppAdminGroupId"];
+
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("AppUserOrAdmin", policy =>
+        policy.RequireAssertion(context =>
+            context.User.Claims.Any(c => c.Type == "groups" &&
+                (c.Value == userGroupId || c.Value == adminGroupId))));
+
+    options.AddPolicy("AppAdminOnly", policy =>
+        policy.RequireAssertion(context =>
+            context.User.Claims.Any(c => c.Type == "groups" &&
+                c.Value == adminGroupId)));
+});
+
+
 var app = builder.Build();
 
 app.UseForwardedHeaders();
@@ -76,6 +117,7 @@ app.UseSwagger();
 app.UseSwaggerUI();
 
 app.UseHttpsRedirection();
+app.UseAuthentication();
 
 app.UseAuthorization();
 
