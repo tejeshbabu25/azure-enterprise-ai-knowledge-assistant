@@ -129,7 +129,7 @@ Protected endpoints:
 
 ## Architecture
 
-![Architecture](docs/images/architecture.png)
+![Architecture]()
 
 ---
 
