@@ -1,60 +1,332 @@
-# 🚀 Azure Enterprise AI Knowledge Assistant
+# Enterprise AI Knowledge Assistant
 
-An enterprise-style AI knowledge assistant built using **Angular, .NET, Azure OpenAI, and Azure AI Search**.
+**Angular 21 + .NET 8 + Azure OpenAI + Azure AI Search + Azure AD SSO**
 
-This project demonstrates how to build a **Retrieval-Augmented Generation (RAG)** system capable of answering questions based on enterprise documents.
-
----
-
-# 🧠 Problem This Project Solves
-
-Organizations often have large amounts of internal documentation:
-
-- onboarding guides
-- architecture documents
-- internal policies
-- technical runbooks
-
-Finding answers inside these documents can be difficult.
-
-This system enables users to **ask natural language questions** and receive **AI-generated answers grounded in real company documents**.
+An enterprise-ready AI Knowledge Assistant that enables users to securely query organizational knowledge using **Azure OpenAI**, **Vector Search**, and **Azure AD SSO** — built with **Angular 21** frontend and **.NET 8 Web API** backend.
 
 ---
 
-# ⚙️ Technology Stack
+# 🚀 Live Demo
+
+**Angular UI**
+`https://<your-ui>.azurestaticapps.net`
+
+**API Swagger**
+`https://<your-api>.azurewebsites.net/swagger`
+
+---
+
+# 🧠 What This Project Demonstrates
+
+* Angular 21 + .NET 8 full-stack architecture
+* Azure OpenAI Chat Completion integration
+* Azure AI Search vector retrieval (RAG)
+* Azure AD (Entra ID) SSO authentication
+* Role-based authorization using AD groups
+* Azure App Configuration centralized settings
+* Secure admin-only ingestion pipeline
+* Production-ready cloud deployment
+
+---
+
+# 🏗️ Architecture
+
+```
+User
+  │
+  ▼
+Angular 21 UI (Azure Static Web Apps)
+  │
+  │  Azure AD Login (MSAL)
+  ▼
+Azure AD / Entra ID
+  │
+  │ Access Token
+  ▼
+.NET 8 API (Azure App Service)
+  │
+  ├── Azure OpenAI (Chat)
+  ├── Azure AI Search (Vector Search)
+  ├── Azure App Configuration
+  └── Azure Key Vault (optional)
+  │
+  ▼
+Response to Angular UI
+```
+
+---
+
+# 🔐 Authentication & Authorization
+
+Implemented using **Azure AD (Microsoft Entra ID)**
+
+### Authentication
+
+* Angular MSAL login
+* Authorization Code + PKCE
+* JWT Bearer token validation in API
+
+### Authorization
+
+AD Groups:
+
+| Group       | Access           |
+| ----------- | ---------------- |
+| a-app-user  | Read-only access |
+| a-app-admin | Admin ingestion  |
+
+Protected endpoints:
+
+```
+/api/profile/me
+/api/chat
+/api/admin/ingest (Admin only)
+```
+
+---
+
+# ⚙️ Tech Stack
 
 ### Frontend
-- Angular
-- TypeScript
-- REST API integration
+
+* Angular 21
+* MSAL Angular
+* TypeScript
+* Standalone Components
+* Router Guards
 
 ### Backend
-- .NET 8 Web API
-- C#
-- Dependency Injection
-- Clean Architecture patterns
 
-### AI Services
-- Azure OpenAI
-- Azure AI Search (Vector Search)
+* .NET 8 Web API
+* Microsoft.Identity.Web
+* Repository Pattern
+* Dependency Injection
 
-### Cloud Platform
-- Azure App Service
-- Azure Static Web Apps
-- Application Insights
+### Azure Services
+
+* Azure OpenAI
+* Azure AI Search
+* Azure App Service
+* Azure Static Web Apps
+* Azure AD (Entra ID)
+* Azure App Configuration
 
 ---
-## Configuration Management
 
-This project uses:
+# 📸 Screenshots
 
-- Azure App Configuration for centralized configuration
-- Azure Key Vault (planned) for secure secret storage
-- Managed Identity for secure access
+## Login via Azure AD
 
-Configuration includes:
-- Azure OpenAI settings
-- Azure AI Search settings
-- Application-level tuning (chunk size, topK, etc.)
+![Login](docs/images/login.png)
 
-# 🏗️ System Architecture
+## Chat Interface
+
+![Chat](docs/images/chat.png)
+
+## Secured API Swagger
+
+![Swagger](docs/images/swagger.png)
+
+## Architecture
+
+![Architecture](docs/images/architecture.png)
+
+---
+
+# 🛠️ Run Locally
+
+## 1. Clone repo
+
+```
+git clone https://github.com/<your-username>/enterprise-ai-knowledge-assistant.git
+```
+
+---
+
+## 2. Run API
+
+```
+cd api
+dotnet restore
+dotnet run
+```
+
+API runs on:
+
+```
+https://localhost:7086
+```
+
+---
+
+## 3. Run Angular UI
+
+```
+cd ui
+npm install
+npm start
+```
+
+Angular runs on:
+
+```
+http://localhost:4200
+```
+
+---
+
+# 🔧 Environment Configuration
+
+## Angular
+
+`environment.ts`
+
+```
+azureAd:
+  clientId: YOUR_CLIENT_ID
+  tenantId: YOUR_TENANT_ID
+
+api:
+  baseUrl: https://localhost:7086/api
+```
+
+---
+
+## .NET API
+
+`appsettings.json`
+
+```
+AzureAd:
+  TenantId: YOUR_TENANT_ID
+  ClientId: YOUR_API_CLIENT_ID
+```
+
+---
+
+# ☁️ Azure Deployment
+
+## UI
+
+Deploy to:
+
+* Azure Static Web Apps
+
+Build output:
+
+```
+dist/knowledge-assistant-ui/browser
+```
+
+Includes:
+
+```
+staticwebapp.config.json
+```
+
+---
+
+## API
+
+Deploy to:
+
+* Azure App Service
+
+Environment variables configured:
+
+```
+AzureAd__TenantId
+AzureAd__ClientId
+AppConfig__Endpoint
+```
+
+---
+
+# 🔁 Authentication Flow
+
+```
+User opens Angular UI
+        ↓
+Redirect to Azure AD login
+        ↓
+User signs in
+        ↓
+Azure AD returns access token
+        ↓
+Angular calls API with Bearer token
+        ↓
+API validates token
+        ↓
+API calls Azure OpenAI + AI Search
+        ↓
+Response returned to UI
+```
+
+---
+
+# 🔐 Security Features
+
+* Azure AD SSO
+* JWT token validation
+* Role-based authorization
+* Admin-only ingestion endpoint
+* Secure config via App Configuration
+* No secrets in source code
+
+---
+
+# 📦 Project Structure
+
+```
+enterprise-ai-knowledge-assistant
+│
+├── ui/                 Angular 21 app
+├── api/                .NET 8 Web API
+├── docs/
+│   └── images/
+│
+├── README.md
+└── LICENSE
+```
+
+---
+
+# 🎯 Features
+
+* Chat with enterprise documents
+* Vector search retrieval
+* Azure OpenAI responses
+* Admin ingestion pipeline
+* Secure SSO login
+* Role-based UI access
+* Cloud deployed
+
+---
+
+# 🚀 Future Enhancements
+
+* Streaming chat responses
+* Conversation history
+* File upload UI
+* Multi-tenant support
+* Telemetry / usage analytics
+* Role-based UI rendering
+
+---
+
+# 👨‍💻 Author
+
+Built as part of hands-on exploration of:
+
+* Angular 21
+* .NET 8
+* Azure OpenAI
+* Azure AI Search
+* Azure AD SSO
+* Enterprise architecture patterns
+
+---
+
+# ⭐ If you found this useful
+
+Star the repo and connect on LinkedIn.
