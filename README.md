@@ -9,10 +9,10 @@ An enterprise-ready AI Knowledge Assistant that enables users to securely query 
 # 🚀 Live Demo
 
 **Angular UI**
-`https://<your-ui>.azurestaticapps.net`
+https://victorious-pond-0475f930f.2.azurestaticapps.net/
 
 **API Swagger**
-`https://<your-api>.azurewebsites.net/swagger`
+https://api-knowledge-assistant-aqebcea3atgmcbfm.centralus-01.azurewebsites.net/swagger/index.html
 
 ---
 
